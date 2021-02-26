@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Required meta tags above-->
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <title>GT Sport Randomiser</title>
+
+    <!-- Import Jquiery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+
+    <!-- THE BIT THAT MAKES IT WORK -->
+    <script>
+        var trackList = new Array();
+        var carList = new Array();
+        var maxLaps = "4";
+
+        var trackIndex = "0";
+
+        var track = "Pending Randomisation";
+        var cars = "Pending Randomisation";
+        var laps = "4";
+
+        function updateDisplays(){
+            $("#trackDisplay").text(track);
+            $("#classDisplay").text(cars);
+            $("#lapDisplay").text(laps + " Laps");
+        }
+
+        function shuffle(array) {
+                var currentIndex = array.length, temporaryValue, randomIndex;
+
+                // While there remain elements to shuffle...
+                while (0 !== currentIndex) {
+
+                    // Pick a remaining element...
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex -= 1;
+
+                    // And swap it with the current element.
+                    temporaryValue = array[currentIndex];
+                    array[currentIndex] = array[randomIndex];
+                    array[randomIndex] = temporaryValue;
+                }
+
+                return array;
+            }
+
+
+        $( document ).ready(function() {
+            console.log( "ready!" );
+            updateDisplays();
+
+            
+            // --------------------------------------------
+            // Randomise Button
+            $("#randomise").click(function(event){
+            //console.log( "Randomise Clicked");
+
+            // Update & Randomise Tracklist
+            trackList = $.map($('.tracks:checkbox:checked'),function(e,i){
+                return e.value;
+            });
+            shuffle(trackList);
+            //console.log( trackList );
+
+            // Get first item of new track list
+            trackIndex = 0;
+            track = trackList[trackIndex];
+
+            // Update Car List
+            carList = $.map($('.cars:checkbox:checked'),function(e,i){
+                return e.value;
+            });
+
+            // Get random value from Car List
+            var carIndex = Math.floor(Math.random() * carList.length);
+            cars = carList[carIndex];
+            
+            // Update maximum value and get random number of laps
+            maxLaps = $('.maxLaps').val();
+            //console.log( maxLaps );
+            laps = Math.floor(Math.random() * maxLaps) + 1;
+
+            updateDisplays();
+            });
+
+
+            // --------------------------------------------
+            // Next Track Button
+            $("#next").click(function(event){
+            console.log( "Next Track Clicked");
+
+            // Increment and get new track from existing tracklist
+            trackIndex++;
+            track = trackList[trackIndex];
+
+            // Update Car List
+            carList = $.map($('.cars:checkbox:checked'),function(e,i){
+                return e.value;
+            });
+
+            // Get random value from Car List
+            var carIndex = Math.floor(Math.random() * carList.length);
+            cars = carList[carIndex];
+            
+            // Update maximum value and get random number of laps
+            maxLaps = $('.maxLaps').val();
+            //console.log( maxLaps );
+            laps = Math.floor(Math.random() * maxLaps) + 1;
+
+            updateDisplays();
+            });
+        });
+
+
+        
+
+    </script>
+
+  </head>
+  <body>
+    <!-- Header Section -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col align-self-center">
+                <h1>GT Sport Randomiser</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col align-self-center">
+                <p>For creating random races for "fun" GT Sport lobbies. Either go fully random with the
+                    <code>Randomise</code> button or use the <code>Next Track</code> button to make sure you don't visit a
+                    track twice.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="container">
+        <div class="row gy-2 gx-6 align-items-start">
+            <div class="d-grid col-12 col-md-6 mx-auto">
+                <button class="btn btn-danger" id="randomise">Randomise</button>
+                <p class="small">Generate a fully random list of tracks, car groups, and other settings. Needs to be used
+                    first to setup the random list.</p>
+            </div>
+            <div class="d-grid col-12 col-md-6 mx-auto">
+                <button class="btn btn-primary" id="next">Next Track</button>
+                <p class="small">Go to the next track in the random list, with the Car Group and other settings remaining
+                    randomised.</p>
+            </div>
+        </div>
+        <div class="row gy-2 justify-content-center mt-5">
+            <div class="col-auto">
+                <h1 class="display-1" id="trackDisplay">TRACK</h1>
+            </div>
+        </div>
+        <div class="row gy-2 gx-6 align-items-start justify-content-center">
+            <div class="col-auto">
+                <p id="classDisplay">Class</p>
+            </div>
+            <div class="col-auto">
+                <p id="lapDisplay">Laps</p>
+            </div>
+        </div>
+    </div>
+
+      <!-- Selection Sectoion -->
+      <div class="container mt-5">
+        <div class="accordion accordion-flush" id="accordionFlush">
+            <!-- TRACKS -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        Tracks
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                    data-bs-parent="#accordionFlush">
+                    <div class="accordion-body">
+                        <form>
+                            <fieldset>
+                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+                                    <div class="col trackSection">
+                                        <legend>Alsace</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Alsace – Village"
+                                            checked /> Alsace
+                                        – Village <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Alsace – Village II"
+                                            checked />
+                                        Alsace – Village II <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Autodrome Lago Maggiore</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Autodrome Lago Maggiore – Center" checked /> Autodrome Lago Maggiore – Center
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Autodrome Lago Maggiore – Center II" checked /> Autodrome Lago Maggiore – Center
+                                        II
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Autodrome Lago Maggiore – East" checked /> Autodrome Lago Maggiore – East <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Autodrome Lago Maggiore – East II" checked /> Autodrome Lago Maggiore – East II
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Autodrome Lago Maggiore – GP" checked /> Autodrome Lago Maggiore – GP <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Autodrome Lago Maggiore – GP II" checked /> Autodrome Lago Maggiore – GP II
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Autodrome Lago Maggiore – West" checked /> Autodrome Lago Maggiore – West <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Autodrome Lago Maggiore – West II" checked /> Autodrome Lago Maggiore – West II
+                                        <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Autódromo De Interlagos</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Autódromo De Interlagos" checked />
+                                        Autódromo De Interlagos <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Autodrome Nazionale Monza</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Autodrome Nazionale Monza" checked /> Autodrome Nazionale Monza <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Autodrome Nazionale Monza – No Chicane" checked /> Autodrome Nazionale Monza – No
+                                        Chicane
+                                        <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Autopolis International Racing Course</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Autopolis International Racing Course" checked /> Autopolis International Racing
+                                        Course
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Autopolis International Racing Course – Shortcut Course" checked /> Autopolis
+                                        International
+                                        Racing Course – Shortcut Course <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Blue Moon Bay</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Blue Moon Bay Speedway"
+                                            checked />
+                                        Blue Moon Bay Speedway <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Blue Moon Bay Speedway II" checked /> Blue Moon Bay Speedway II <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Blue Moon Bay Speedway – Infield A" checked /> Blue Moon Bay Speedway – Infield A
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Blue Moon Bay Speedway – Infield A II" checked /> Blue Moon Bay Speedway –
+                                        Infield A
+                                        II
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Blue Moon Bay Speedway – Infield B" checked /> Blue Moon Bay Speedway – Infield B
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Blue Moon Bay Speedway – Infield B II" checked /> Blue Moon Bay Speedway –
+                                        Infield B
+                                        II
+                                        <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Brands Hatch </legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Brands Hatch Grand Prix Circuit" checked /> Brands Hatch Grand Prix Circuit
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Brands Hatch Indy Circuit" checked /> Brands Hatch Indy Circuit <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Broad Bean Raceway</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Broad Bean Raceway"
+                                            checked />
+                                        Broad Bean Raceway <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Broad Bean Raceway II"
+                                            checked />
+                                        Broad Bean Raceway II <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Circuit de Barcelona-Catalunya</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Circuit de Barcelona-Catalunya" checked /> Circuit de Barcelona-Catalunya <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Circuit de la Sarthe</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Circuit de la Sarthe"
+                                            checked />
+                                        Circuit de la Sarthe <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Circuit de la Sarthe No Chicane" checked /> Circuit de la Sarthe No Chicane
+                                        <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Circuit de Sainte-Croix</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Circuit de Sainte-Croix A" checked /> Circuit de Sainte-Croix A <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Circuit de Sainte-Croix A II" checked /> Circuit de Sainte-Croix A II <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Circuit de Sainte-Croix B" checked /> Circuit de Sainte-Croix B <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Circuit de Sainte-Croix B II" checked /> Circuit de Sainte-Croix B II <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Circuit de Sainte-Croix C" checked /> Circuit de Sainte-Croix C <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Circuit de Sainte-Croix C II" checked /> Circuit de Sainte-Croix C II <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Circuit de Spa-Francorchamps</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Circuit de Spa-Francorchamps" checked /> Circuit de Spa-Francorchamps <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Colorado Springs</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Colorado Springs – Lake" checked />
+                                        Colorado Springs – Lake <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Colorado Springs – Lake II" checked /> Colorado Springs – Lake II <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Dragon Trail</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Dragon Trail – Gardens"
+                                            checked />
+                                        Dragon Trail – Gardens <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Dragon Trail – Gardens II" checked /> Dragon Trail – Gardens II <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Dragon Trail – Seaside"
+                                            checked />
+                                        Dragon Trail – Seaside <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Dragon Trail – Seaside II" checked /> Dragon Trail – Seaside II <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Fishermans Ranch</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Fishermans Ranch"
+                                            checked />
+                                        Fishermans Ranch <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Fishermans Ranch II"
+                                            checked />
+                                        Fishermans Ranch II <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Fuji International Speedway</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Fuji International Speedway" checked /> Fuji International Speedway <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Fuji International Speedway (Short)" checked /> Fuji International Speedway
+                                        (Short)
+                                        <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Goodwood</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Goodwood Motor Circuit"
+                                            checked />
+                                        Goodwood Motor Circuit <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>KYOTO DRIVING PARK</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="KYOTO DRIVING PARK – MIYABI" checked /> KYOTO DRIVING PARK – MIYABI <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="KYOTO DRIVING PARK – YAMAGIWA" checked /> KYOTO DRIVING PARK – YAMAGIWA <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="KYOTO DRIVING PARK – YAMAGIWA II" checked /> KYOTO DRIVING PARK – YAMAGIWA II
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="KYOTO DRIVING PARK – YAMAGIWA+MIYABI" checked /> KYOTO DRIVING PARK –
+                                        YAMAGIWA+MIYABI
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="KYOTO DRIVING PARK – YAMAGIWA+MIYABI II" checked /> KYOTO DRIVING PARK –
+                                        YAMAGIWA+MIYABI II
+                                        <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Mount Panorama Motor Racing Circuit</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Mount Panorama Motor Racing Circuit" checked /> Mount Panorama Motor Racing
+                                        Circuit
+                                        <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Northern Isle Speedway</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Northern Isle Speedway"
+                                            checked />
+                                        Northern Isle Speedway <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Northern Isle Speedway – Infield" checked /> Northern Isle Speedway – Infield
+                                        <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Nürburgring</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Nürburgring 24H"
+                                            checked />
+                                        Nürburgring 24H <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Nürburgring GP"
+                                            checked />
+                                        Nürburgring GP <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Nürburgring Nordschleife" checked /> Nürburgring Nordschleife <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Nürburgring Nordschleife Tourist Layout" checked /> Nürburgring Nordschleife
+                                        Tourist
+                                        Layout
+                                        <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Red Bull Ring</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Red Bull Ring"
+                                            checked />
+                                        Red Bull
+                                        Ring <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Red Bull Ring Short Track" checked /> Red Bull Ring Short Track <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Sardegna</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Sardegna – Road Track A" checked />
+                                        Sardegna – Road Track A <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Sardegna – Road Track A II" checked /> Sardegna – Road Track A II <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Sardegna – Road Track B" checked />
+                                        Sardegna – Road Track B <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Sardegna – Road Track B II" checked /> Sardegna – Road Track B II <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Sardegna – Road Track C" checked />
+                                        Sardegna – Road Track C <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Sardegna – Road Track C II" checked /> Sardegna – Road Track C II <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Sardegna – Windmills"
+                                            checked />
+                                        Sardegna – Windmills <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Sardegna – Windmills II" checked />
+                                        Sardegna – Windmills II <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Special Stage Route X</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Special Stage Route X"
+                                            checked />
+                                        Special Stage Route X <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Suzuka</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Suzuka Circuit"
+                                            checked />
+                                        Suzuka
+                                        Circuit <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Suzuka Circuit East Course" checked /> Suzuka Circuit East Course <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Tokyo Expressway</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Tokyo Expressway – Central Inner Loop" checked /> Tokyo Expressway – Central
+                                        Inner
+                                        Loop
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Tokyo Expressway – Central Outer Loop" checked /> Tokyo Expressway – Central
+                                        Outer
+                                        Loop
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Tokyo Expressway – East Inner Loop" checked /> Tokyo Expressway – East Inner Loop
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Tokyo Expressway – East Outer Loop" checked /> Tokyo Expressway – East Outer Loop
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Tokyo Expressway – South Inner Loop" checked /> Tokyo Expressway – South Inner
+                                        Loop
+                                        <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Tokyo Expressway – South Outer Loop" checked /> Tokyo Expressway – South Outer
+                                        Loop
+                                        <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Tsukuba Circuit</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks" value="Tsukuba Circuit"
+                                            checked />
+                                        Tsukuba
+                                        Circuit <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>WeatherTech Raceway Laguna Seca</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="WeatherTech Raceway Laguna Seca" checked /> WeatherTech Raceway Laguna Seca
+                                        <br />
+                                    </div>
+                                    <div class="col trackSection">
+                                        <legend>Willow Springs International Raceway</legend>
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Willow Springs International Raceway: Big Willow" checked /> Willow Springs
+                                        International
+                                        Raceway: Big Willow <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Willow Springs International Raceway: Horse Thief Mile" checked /> Willow Springs
+                                        International Raceway: Horse Thief Mile <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Willow Springs International Raceway: Horse Thief Mile II" checked /> Willow
+                                        Springs
+                                        International Raceway: Horse Thief Mile II <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Willow Springs International Raceway: Streets of Willow Springs" checked />
+                                        Willow
+                                        Springs
+                                        International Raceway: Streets of Willow Springs <br />
+                                        <input class="form-check-input tracks" type="checkbox" name="tracks"
+                                            value="Willow Springs International Raceway: Streets of Willow Springs II" checked />
+                                        Willow
+                                        Springs
+                                        International Raceway: Streets of Willow Springs II <br />
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    </fieldset>
+                    </form>
+                </div>
+            </div>
+
+
+            <!-- CAR CATOGORIES -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="flush-headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                  Car Classes
+                </button>
+              </h2>
+              <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlush">
+                <div class="accordion-body">
+                    <p>N.B. There are no <code>N900</code> cars available without tuning, therefore this is turned off by default.</p>
+
+                    <form>
+                        <fieldset>
+                            <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6">
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup1" name="n100" value="n100" checked /> 
+                                    <Label for="carGroup1">n100</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup2" name="n200" value="n200" checked />
+                                    <Label for="carGroup2">n200</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup3" name="n300" value="n300" checked />
+                                    <Label for="carGroup3">n300</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup4" name="n400" value="n400" checked />
+                                    <Label for="carGroup3">n400</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup5" name="n500" value="n500" checked />
+                                    <Label for="carGroup3">n500</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup6" name="n600" value="n600" checked /> 
+                                    <Label for="carGroup3">n600</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup7" name="n700" value="n700" checked /> 
+                                    <Label for="carGroup3">n700</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup8" name="n800" value="n800" checked /> 
+                                    <Label for="carGroup3">n800</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup9" name="n900" value="n900" /> 
+                                    <Label for="carGroup3">n900</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup10" name="n1000" value="n1000" checked /> 
+                                    <Label for="carGroup3">n1000</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup11" name="group 4" value="group 4" checked /> 
+                                    <Label for="carGroup3">group 4</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup12" name="group 3" value="group 3" checked /> 
+                                    <Label for="carGroup3">group 3</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup13" name="group 2" value="group 2" checked /> 
+                                    <Label for="carGroup3">group 2</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup14" name="group 1" value="group 1" checked /> 
+                                    <Label for="carGroup3">group 1</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup15" name="group B" value="group B" checked /> 
+                                    <Label for="carGroup3">group B</Label>
+                                </div>
+                                <div class="col carSection form-check form-switch">
+                                    <input class="form-check-input cars" type="checkbox" id="carGroup16" name="group X" value="group X" checked /> 
+                                    <Label for="carGroup3">group X</Label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+
+
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Other -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="flush-headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                  Other Settings
+                </button>
+              </h2>
+              <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlush">
+                <div class="accordion-body">
+                    <form>
+                        <fieldset>
+                            <div class="form-floating">
+                            <input type="number" class="form-control maxLaps" id="maxLaps floatingInputValue" name="Laps" min="1" max="200" value="4"/>
+                            <label for="maxLaps"> Maximim Number of Laps:</label>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    
+
+
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+  </body>
+</html>
