@@ -1,5 +1,10 @@
-# GTSportRandomiser
-Randomiser for "fun" Grand Tourismo Sport lobbies
+# Grand Tourismo Sport Randomiser
+Randomiser for "fun" GT Sport lobbies
 
-Based along a similar idea to the Destiny Random Exotic game, but actually coded mostly from scratch initially in an afternoon.
-Allows for a randomised list of Tracks and randomly selecting car class and laps for racing online in GT Sport
+Currently, just collects all the selections and will spit out a random combination.
+
+Improvents List:
+- Turn on/off groups of tracks
+- Presets eg: ovals, short tracks only, real tracks only, no rally
+- Support for more settings such as Tyre Wear & Fuel
+- somewhat intelegent filtering to avoid something silly like 20 laps in n100 at Nordshlife with max tyre and fuel (Although then it wouldnt be fully random)
