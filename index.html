@@ -49,7 +49,7 @@
                 }
 
                 return array;
-            }
+        }
 
 
         // --------------------------------------------
@@ -122,12 +122,33 @@
             updateDisplays();
             });
 
+            // --------------------------------------------
+            // Master Toggles
+
+            $(".gMaster").change(function(){
+                var checked = $(this).is(":checked");
+                var group = $(this).attr("id");
+                if (checked){
+                    $(".g"+group).each(function(){
+                        $(this).prop("checked", true)
+                    });
+                }else{
+                    $(".g"+group).each(function(){
+                    $(this).prop("checked", false);
+                    });
+                }
+
+            });
+
 
             // --------------------------------------------
             // PRESETS
 
             //Clear Preset if modified
             $(".tracks").click(function(event){
+                $(".bPresets").removeClass("btn-primary btn-outline-primary").addClass("btn-outline-primary");
+            });
+            $(".gMaster").click(function(event){
                 $(".bPresets").removeClass("btn-primary btn-outline-primary").addClass("btn-outline-primary");
             });
 
@@ -143,55 +164,47 @@
                 $(".bPresets").removeClass("btn-primary btn-outline-primary").addClass("btn-outline-primary");
                 $(this).removeClass("btn-outline-primary").addClass("btn-primary");
 
+                $(".tracks").prop("checked", false);
+                $(".gMaster").prop("checked", false);
+
                 switch(id) {
                     // Track Types
                     case "bRT":
-                        $(".tracks").removeAttr("checked");
-                        $(".real").attr("checked","checked");
+                        $(".real").prop("checked", true);
                         break;
                     case "bOT":
-                        $(".tracks").removeAttr("checked");
-                        $(".original").attr("checked","checked");
+                        $(".original").prop("checked", true);
                         break;
                     case "bOv":
-                        $(".tracks").removeAttr("checked");
-                        $(".oval").attr("checked","checked");
+                        $(".oval").prop("checked", true);
                         break;
                     case "bRa":
-                        $(".tracks").removeAttr("checked");
-                        $(".dirt").attr("checked","checked");
+                        $(".dirt").prop("checked", true);
                         break;
                     case "bSt":
-                        $(".tracks").removeAttr("checked");
-                        $(".city").attr("checked","checked");
+                        $(".city").prop("checked", true);
                         break;
 
                     // Track Lengths
                     case "bS":
-                        $(".tracks").removeAttr("checked");
-                        $(".lS").attr("checked","checked");
+                        $(".lS").prop("checked", true);
                         break;
                     case "bM":
-                        $(".tracks").removeAttr("checked");
-                        $(".lM").attr("checked","checked");
+                        $(".lM").prop("checked", true);
                         break;
                     case "bL":
-                        $(".tracks").removeAttr("checked");
-                        $(".lL").attr("checked","checked");
+                        $(".lL").prop("checked", true);
                         break;
                     case "bEnd":
-                        $(".tracks").removeAttr("checked");
-                        $(".lEnd").attr("checked","checked");
+                        $(".lEnd").prop("checked", true);
                         break;
 
                     // Presets
                     case "bP1":
-                        $(".tracks").removeAttr("checked");
-                        $(".Pre1").attr("checked","checked");
+                        $(".Pre1").prop("checked", true);
                         break;
                     case "bP2":
-                        $(".tracks").removeAttr("checked");
-                        $(".Pre2").attr("checked","checked");
+                        $(".Pre2").prop("checked", true);
                         break;
                 }
 
@@ -304,355 +317,367 @@
                         <form class="form-inline form-check form-switch"><div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-4">
                             <div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="Alsace" name="track" value="Alsace" checked />
+                                    <input class="form-check-input gMaster original lL Pre1" type="checkbox" id="Alsace" name="track" value="Alsace"  checked />
                                     <label class="form-check-label" for="Alsace">Alsace</label> 
-                                    -->Alsace
                                 </h5>
 
-                                <input class="form-check-input tracks original lL Pre1" type="checkbox" id="AlsVil" name="track" value="Alsace - Village" checked />
+                                <input class="form-check-input tracks gAlsace original lL Pre1" 
+                                    type="checkbox" id="AlsVil" name="track" value="Alsace - Village" checked />
                                 <label class="form-check-label" for="AlsVil">Alsace - Village</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lL Pre1" type="checkbox" id="AlsV2" name="track" value="Alsace - Village II" checked />
+                                <input class="form-check-input tracks gAlsace original lL Pre1" 
+                                    type="checkbox" id="AlsV2" name="track" value="Alsace - Village II" checked />
                                 <label class="form-check-label" for="AlsV2">Alsace - Village II</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="ALM" name="track" value="Autodrome Lago Maggiore" checked />
+                                    <input class="form-check-input gMaster original Pre1" type="checkbox" id="ALM" name="track" value="Autodrome Lago Maggiore" checked />
                                     <label class="form-check-label" for="ALM">Autodrome Lago Maggiore</label>
-                                    -->Autodrome Lago Maggiore
                                 </h5>
 
-                                <input class="form-check-input tracks original lL Pre1" type="checkbox" id="ALMG" name="track" value="Autodrome Lago Maggiore - GP" checked />
+                                <input class="form-check-input tracks gALM original lL Pre1" 
+                                    type="checkbox" id="ALMG" name="track" value="Autodrome Lago Maggiore - GP" checked />
                                 <label class="form-check-label" for="ALMG">Autodrome Lago Maggiore - GP</label>
                                 <br />
                                 
-                                <input class="form-check-input tracks original lL Pre1" type="checkbox" id="ALMG2" name="track" value="Autodrome Lago Maggiore - GP II" checked />
+                                <input class="form-check-input tracks gALM original lL Pre1" 
+                                    type="checkbox" id="ALMG2" name="track" value="Autodrome Lago Maggiore - GP II" checked />
                                 <label class="form-check-label" for="ALMG2">Autodrome Lago Maggiore - GP II</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lS Pre1" type="checkbox" id="ALMC" name="track" value="Autodrome Lago Maggiore - Centre" checked />
+                                <input class="form-check-input tracks gALM original lS Pre1" 
+                                    type="checkbox" id="ALMC" name="track" value="Autodrome Lago Maggiore - Centre" checked />
                                 <label class="form-check-label" for="ALMC">Autodrome Lago Maggiore - Centre</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lM Pre1" type="checkbox" id="ALME" name="track" value="Autodrome Lago Maggiore - East" checked />
+                                <input class="form-check-input tracks gALM original lM Pre1" 
+                                    type="checkbox" id="ALME" name="track" value="Autodrome Lago Maggiore - East" checked />
                                 <label class="form-check-label" for="ALME">Autodrome Lago Maggiore - East</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lM Pre1" type="checkbox" id="ALMW" name="track" value="Autodrome Lago Maggiore - West" checked />
+                                <input class="form-check-input tracks gALM original lM Pre1" 
+                                    type="checkbox" id="ALMW" name="track" value="Autodrome Lago Maggiore - West" checked />
                                 <label class="form-check-label" for="ALMW">Autodrome Lago Maggiore - West</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lS Pre1" type="checkbox" id="ALMC2" name="track" value="Autodrome Lago Maggiore - Centre II" checked />
+                                <input class="form-check-input tracks gALM original lS Pre1" 
+                                    type="checkbox" id="ALMC2" name="track" value="Autodrome Lago Maggiore - Centre II" checked />
                                 <label class="form-check-label" for="ALMC2">Autodrome Lago Maggiore - Centre II</label>
                                 <br />
                                                                 
-                                <input class="form-check-input tracks original lM Pre1" type="checkbox" id="ALME2" name="track" value="Autodrome Lago Maggiore - East II" checked />
+                                <input class="form-check-input tracks gALM original lM Pre1" 
+                                    type="checkbox" id="ALME2" name="track" value="Autodrome Lago Maggiore - East II" checked />
                                 <label class="form-check-label" for="ALME2">Autodrome Lago Maggiore - East II</label>
                                 <br />
                                 
-                                <input class="form-check-input tracks original lM Pre1" type="checkbox" id="ALMW2" name="track" value="Autodrome Lago Maggiore - West II" checked />
+                                <input class="form-check-input tracks gALM original lM Pre1" 
+                                    type="checkbox" id="ALMW2" name="track" value="Autodrome Lago Maggiore - West II" checked />
                                 <label class="form-check-label" for="ALMW2">Autodrome Lago Maggiore - West II</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="ANM" name="track" value="Autodrome Nazionale Monza" checked />
+                                    <input class="form-check-input gMaster real lL Pre1" type="checkbox" id="ANM" name="track" value="Autodrome Nazionale Monza" checked />
                                     <label class="form-check-label" for="ANM">Autodrome Nazionale Monza</label>
-                                    -->Autodrome Nazionale Monza
                                 </h5>
 
-                                <input class="form-check-input tracks real lL Pre1" type="checkbox" id="ANM0" name="track" value="Autodrome Nazionale Monza" checked />
+                                <input class="form-check-input tracks gANM real lL Pre1" 
+                                    type="checkbox" id="ANM0" name="track" value="Autodrome Nazionale Monza" checked />
                                 <label class="form-check-label" for="ANM0">Autodrome Nazionale Monza</label>
                                 <br />
 
-                                <input class="form-check-input tracks real lL Pre1" type="checkbox" id="ANMnc" name="track" value="Autodrome Nazionale Monza No Chicane" checked />
+                                <input class="form-check-input tracks gANM real lL Pre1" 
+                                    type="checkbox" id="ANMnc" name="track" value="Autodrome Nazionale Monza No Chicane" checked />
                                 <label class="form-check-label" for="ANMnc">Autodrome Nazionale Monza No Chicane</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="API" name="track" value="Autopolis International Racing Course" checked />
+                                    <input class="form-check-input gMaster real Pre1" type="checkbox" id="API" name="track" value="Autopolis International Racing Course" checked />
                                     <label class="form-check-label" for="API">Autopolis International Racing Course</label>
-                                    -->Autopolis International Racing Course
                                 </h5>
 
-                                <input class="form-check-input tracks real lL Pre1" type="checkbox" id="API0" name="track" value="Autopolis International Racing Course" checked />
+                                <input class="form-check-input tracks gAPI real lL Pre1" 
+                                    type="checkbox" id="API0" name="track" value="Autopolis International Racing Course" checked />
                                 <label class="form-check-label" for="API0">Autopolis International Racing Course</label>
                                 <br />
 
-                                <input class="form-check-input tracks real lM Pre1" type="checkbox" id="APIS" name="track" value="Autopolis International Racing Course Shortcut Course" checked />
+                                <input class="form-check-input tracks gAPI real lM Pre1" 
+                                    type="checkbox" id="APIS" name="track" value="Autopolis International Racing Course Shortcut Course" checked />
                                 <label class="form-check-label" for="APIS">Autopolis International Racing Course Shortcut Course</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="ADI" name="track" value="Autódromo De Interlagos" checked />
+                                    <input class="form-check-input gMaster real lL Pre1" type="checkbox" id="ADI" name="track" value="Autódromo De Interlagos" checked />
                                     <label class="form-check-label" for="ADI">Autódromo De Interlagos</label>
-                                    -->Autódromo De Interlagos
                                 </h5>
 
-                                <input class="form-check-input tracks real lL Pre1" type="checkbox" id="ADI0" name="track" value="Autódromo De Interlagos" checked />
+                                <input class="form-check-input tracks gADI real lL Pre1" type="checkbox" id="ADI0" name="track" value="Autódromo De Interlagos" checked />
                                 <label class="form-check-label" for="ADI0">Autódromo De Interlagos</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="BMB" name="track" value="Blue Moon Bay" checked />
+                                    <input class="form-check-input gMaster original lM Pre1" type="checkbox" id="BMB" name="track" value="Blue Moon Bay" checked />
                                     <label class="form-check-label" for="BMB">Blue Moon Bay</label>
-                                    -->Blue Moon Bay
                                 </h5>
 
-                                <input class="form-check-input tracks original oval lM Pre1" type="checkbox" id="BMS" name="track" value="Blue Moon Bay Speedway" checked />
+                                <input class="form-check-input tracks gBMB original oval lM Pre1" 
+                                    type="checkbox" id="BMS" name="track" value="Blue Moon Bay Speedway" checked />
                                 <label class="form-check-label" for="BMS">Blue Moon Bay Speedway</label>
                                 <br />
 
-                                <input class="form-check-input tracks original oval lM Pre1" type="checkbox" id="BMS2" name="track" value="Blue Moon Bay Speedway II" checked />
+                                <input class="form-check-input tracks gBMB original oval lM Pre1" 
+                                    type="checkbox" id="BMS2" name="track" value="Blue Moon Bay Speedway II" checked />
                                 <label class="form-check-label" for="BMS2">Blue Moon Bay Speedway II</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lM Pre1" type="checkbox" id="BMSIA" name="track" value="Blue Moon Bay Speedway - Infield A" checked />
+                                <input class="form-check-input tracks gBMB original lM Pre1" 
+                                    type="checkbox" id="BMSIA" name="track" value="Blue Moon Bay Speedway - Infield A" checked />
                                 <label class="form-check-label" for="BMSIA">Blue Moon Bay Speedway - Infield A</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lM Pre1" type="checkbox" id="BMSIA2" name="track" value="Blue Moon Bay Speedway - Infield A II" checked />
+                                <input class="form-check-input tracks gBMB original lM Pre1" 
+                                    type="checkbox" id="BMSIA2" name="track" value="Blue Moon Bay Speedway - Infield A II" checked />
                                 <label class="form-check-label" for="BMSIA2">Blue Moon Bay Speedway - Infield A II</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lM Pre1" type="checkbox" id="BMSIB" name="track" value="Blue Moon Bay Speedway - Infield B" checked />
+                                <input class="form-check-input tracks gBMB original lM Pre1" 
+                                    type="checkbox" id="BMSIB" name="track" value="Blue Moon Bay Speedway - Infield B" checked />
                                 <label class="form-check-label" for="BMSIB">Blue Moon Bay Speedway - Infield B</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lM Pre1" type="checkbox" id="BMSIB2" name="track" value="Blue Moon Bay Speedway - Infield B II" checked />
+                                <input class="form-check-input tracks gBMB original lM Pre1" 
+                                    type="checkbox" id="BMSIB2" name="track" value="Blue Moon Bay Speedway - Infield B II" checked />
                                 <label class="form-check-label" for="BMSIB2">Blue Moon Bay Speedway - Infield B II</label>
                             
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="BH" name="track" value="Brands Hatch" checked />
+                                    <input class="form-check-input gMaster real Pre1" type="checkbox" id="BH" name="track" value="Brands Hatch" checked />
                                     <label class="form-check-label" for="BH">Brands Hatch</label>
-                                    -->Brands Hatch
                                 </h5>
 
-                                <input class="form-check-input tracks real lM Pre1" type="checkbox" id="BHGP" name="track" value="Brands Hatch Grand Prix Circuit" checked />
+                                <input class="form-check-input tracks gBH real lM Pre1" 
+                                    type="checkbox" id="BHGP" name="track" value="Brands Hatch Grand Prix Circuit" checked />
                                 <label class="form-check-label" for="BHGP">Brands Hatch Grand Prix Circuit</label>
                                 <br />
 
-                                <input class="form-check-input tracks real lS Pre1" type="checkbox" id="BHI" name="track" value="Brands Hatch Indy Circuit" checked />
+                                <input class="form-check-input tracks gBH real lS Pre1" 
+                                    type="checkbox" id="BHI" name="track" value="Brands Hatch Indy Circuit" checked />
                                 <label class="form-check-label" for="BHI">Brands Hatch Indy Circuit</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="BBR" name="track" value="Broad Bean Raceway" checked />
+                                    <input class="form-check-input gMaster original oval lS" type="checkbox" id="BBR" name="track" value="Broad Bean Raceway" checked />
                                     <label class="form-check-label" for="BBR">Broad Bean Raceway</label>
-                                    -->Broad Bean Raceway
                                 </h5>
 
-                                <input class="form-check-input tracks original oval lS" type="checkbox" id="BBR0" name="track" value="BB Raceway" checked />
+                                <input class="form-check-input tracks gBBR original oval lS" 
+                                    type="checkbox" id="BBR0" name="track" value="BB Raceway" checked />
                                 <label class="form-check-label" for="BBR0">BB Raceway</label>
                                 <br />
 
-                                <input class="form-check-input tracks original oval lS" type="checkbox" id="BBR2" name="track" value="BB Raceway II" checked />
+                                <input class="form-check-input tracks gBBR original oval lS" 
+                                    type="checkbox" id="BBR2" name="track" value="BB Raceway II" checked />
                                 <label class="form-check-label" for="BBR2">BB Raceway II</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="BCat" name="track" value="Circuit de Barcelona-Catalunya" checked />
+                                    <input class="form-check-input gMaster real lL Pre1" type="checkbox" id="BCat" name="track" value="Circuit de Barcelona-Catalunya" checked />
                                     <label class="form-check-label" for="BCat">Circuit de Barcelona-Catalunya</label>
-                                    -->Circuit de Barcelona-Catalunya
                                 </h5>
 
-                                <input class="form-check-input tracks real lL Pre1" type="checkbox" id="BCGP" name="track" value="Circuit de Barcelona-Catalunya Grand Prix Layout" checked />
+                                <input class="form-check-input tracks gBCat real lL Pre1" 
+                                    type="checkbox" id="BCGP" name="track" value="Circuit de Barcelona-Catalunya Grand Prix Layout" checked />
                                 <label class="form-check-label" for="BCGP">Circuit de Barcelona-Catalunya Grand Prix Layout</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="CLS" name="track" value="Circuit de la Sarthe" checked />
+                                    <input class="form-check-input gMaster real lEnd Pre1" type="checkbox" id="CLS" name="track" value="Circuit de la Sarthe" checked />
                                     <label class="form-check-label" for="CLS">Circuit de la Sarthe</label>
-                                    -->Circuit de la Sarthe
                                 </h5>
 
-                                <input class="form-check-input tracks real lEnd Pre1" type="checkbox" id="CLS0" name="track" value="Circuit de la Sarthe" checked />
+                                <input class="form-check-input tracks gCLS real lEnd Pre1" 
+                                    type="checkbox" id="CLS0" name="track" value="Circuit de la Sarthe" checked />
                                 <label class="form-check-label" for="CLS0">Circuit de la Sarthe</label>
                                 <br />
 
-                                <input class="form-check-input tracks real lEnd Pre1" type="checkbox" id="CLSNC" name="track" value="Circuit de la Sarthe No Chicane" checked />
+                                <input class="form-check-input tracks gCLS real lEnd Pre1" 
+                                    type="checkbox" id="CLSNC" name="track" value="Circuit de la Sarthe No Chicane" checked />
                                 <label class="form-check-label" for="CLSNC">Circuit de la Sarthe No Chicane</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="CSC" name="track" value="Circuit de Sainte-Croix" checked />
+                                    <input class="form-check-input gMaster original lEnd Pre1" type="checkbox" id="CSC" name="track" value="Circuit de Sainte-Croix" checked />
                                     <label class="form-check-label" for="CSC">Circuit de Sainte-Croix</label>
-                                    -->Circuit de Sainte-Croix
                                 </h5>
 
-                                <input class="form-check-input tracks original lEnd Pre1" type="checkbox" id="CSCA" name="track" value="Circuit de Sainte-Croix - A" checked />
+                                <input class="form-check-input tracks gCSC original lEnd Pre1" 
+                                    type="checkbox" id="CSCA" name="track" value="Circuit de Sainte-Croix - A" checked />
                                 <label class="form-check-label" for="CSCA">Circuit de Sainte-Croix - A</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lEnd Pre1" type="checkbox" id="CSCA2" name="track" value="Circuit de Sainte-Croix - A II" checked />
+                                <input class="form-check-input tracks gCSC original lEnd Pre1" 
+                                    type="checkbox" id="CSCA2" name="track" value="Circuit de Sainte-Croix - A II" checked />
                                 <label class="form-check-label" for="CSCA2">Circuit de Sainte-Croix - A II</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lEnd Pre1" type="checkbox" id="CSCB" name="track" value="Circuit de Sainte-Croix - B" checked />
+                                <input class="form-check-input tracks gCSC original lEnd Pre1" 
+                                    type="checkbox" id="CSCB" name="track" value="Circuit de Sainte-Croix - B" checked />
                                 <label class="form-check-label" for="CSCB">Circuit de Sainte-Croix - B</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lEnd Pre1" type="checkbox" id="CSCB2" name="track" value="Circuit de Sainte-Croix - B II" checked />
+                                <input class="form-check-input tracks gCSC original lEnd Pre1" 
+                                    type="checkbox" id="CSCB2" name="track" value="Circuit de Sainte-Croix - B II" checked />
                                 <label class="form-check-label" for="CSCB2">Circuit de Sainte-Croix - B II</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lEnd Pre1" type="checkbox" id="CSCC" name="track" value="Circuit de Sainte-Croix - C" checked />
+                                <input class="form-check-input tracks gCSC original lEnd Pre1" 
+                                    type="checkbox" id="CSCC" name="track" value="Circuit de Sainte-Croix - C" checked />
                                 <label class="form-check-label" for="CSCC">Circuit de Sainte-Croix - C</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lEnd Pre1" type="checkbox" id="CSCC2" name="track" value="Circuit de Sainte-Croix - C II" checked />
+                                <input class="form-check-input tracks gCSC original lEnd Pre1" 
+                                    type="checkbox" id="CSCC2" name="track" value="Circuit de Sainte-Croix - C II" checked />
                                 <label class="form-check-label" for="CSCC2">Circuit de Sainte-Croix - C II</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="SPA" name="track" value="Circuit de Spa-Francorchamps" checked />
+                                    <input class="form-check-input gMaster real lEnd Pre1" type="checkbox" id="SPA" name="track" value="Circuit de Spa-Francorchamps" checked />
                                     <label class="form-check-label" for="SPA">Circuit de Spa-Francorchamps</label>
-                                    -->Circuit de Spa-Francorchamps
                                 </h5>
 
-                                <input class="form-check-input tracks real lEnd Pre1" type="checkbox" id="SPA0" name="track" value="Circuit de Spa-Francorchamps" checked />
+                                <input class="form-check-input tracks gSPA real lEnd Pre1" 
+                                    type="checkbox" id="SPA0" name="track" value="Circuit de Spa-Francorchamps" checked />
                                 <label class="form-check-label" for="SPA0">Circuit de Spa-Francorchamps</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="CS" name="track" value="Colorado Springs" checked />
+                                    <input class="form-check-input gMaster dirt lM" type="checkbox" id="CS" name="track" value="Colorado Springs" checked />
                                     <label class="form-check-label" for="CS">Colorado Springs</label>
-                                    -->Colorado Springs
                                 </h5>
 
-                                <input class="form-check-input tracks dirt lM" type="checkbox" id="CSL" name="track" value="Colorado Springs - Lake" checked />
+                                <input class="form-check-input tracks gCS dirt lM" 
+                                    type="checkbox" id="CSL" name="track" value="Colorado Springs - Lake" checked />
                                 <label class="form-check-label" for="CSL">Colorado Springs - Lake</label>
                                 <br />
 
-                                <input class="form-check-input tracks dirt lM" type="checkbox" id="CSL2" name="track" value="Colorado Springs - Lake II" checked />
+                                <input class="form-check-input tracks gCS dirt lM" 
+                                    type="checkbox" id="CSL2" name="track" value="Colorado Springs - Lake II" checked />
                                 <label class="form-check-label" for="CSL2">Colorado Springs - Lake II</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="DT" name="track" value="Dragon Trail" checked />
+                                    <input class="form-check-input gMaster original Pre1" type="checkbox" id="DT" name="track" value="Dragon Trail" checked />
                                     <label class="form-check-label" for="DT">Dragon Trail</label>
-                                    -->Dragon Trail
                                 </h5>
 
-                                <input class="form-check-input tracks original lL Pre1" type="checkbox" id="DTS" name="track" value="Dragon Trail - Seaside" checked />
+                                <input class="form-check-input tracks gDT original lL Pre1" 
+                                    type="checkbox" id="DTS" name="track" value="Dragon Trail - Seaside" checked />
                                 <label class="form-check-label" for="DTS">Dragon Trail - Seaside</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lL Pre1" type="checkbox" id="DTS2" name="track" value="Dragon Trail - Seaside II" checked />
+                                <input class="form-check-input tracks gDT original lL Pre1" 
+                                    type="checkbox" id="DTS2" name="track" value="Dragon Trail - Seaside II" checked />
                                 <label class="form-check-label" for="DTS2">Dragon Trail - Seaside II</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lM Pre1" type="checkbox" id="DTG" name="track" value="Dragon Trail - Gardens" checked />
+                                <input class="form-check-input tracks gDT original lM Pre1" 
+                                    type="checkbox" id="DTG" name="track" value="Dragon Trail - Gardens" checked />
                                 <label class="form-check-label" for="DTG">Dragon Trail - Gardens</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lM Pre1" type="checkbox" id="DTG2" name="track" value="Dragon Trail - Gardens II" checked />
+                                <input class="form-check-input tracks gDT original lM Pre1" 
+                                    type="checkbox" id="DTG2" name="track" value="Dragon Trail - Gardens II" checked />
                                 <label class="form-check-label" for="DTG2">Dragon Trail - Gardens II</label>
 
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="FR" name="track" value="Fishermans Ranch" checked />
+                                    <input class="form-check-input gMaster lEnd dirt" type="checkbox" id="FR" name="track" value="Fishermans Ranch" checked />
                                     <label class="form-check-label" for="FR">Fishermans Ranch</label>
-                                    -->Fishermans Ranch
                                 </h5>
 
-                                <input class="form-check-input tracks dirt lEnd" type="checkbox" id="FR0" name="track" value="Fishermans Ranch" checked />
+                                <input class="form-check-input tracks gFR dirt lEnd" 
+                                    type="checkbox" id="FR0" name="track" value="Fishermans Ranch" checked />
                                 <label class="form-check-label" for="FR0">Fishermans Ranch</label>
                                 <br />
 
-                                <input class="form-check-input tracks dirt lEnd" type="checkbox" id="FR2" name="track" value="Fishermans Ranch II" checked />
+                                <input class="form-check-input tracks gFR dirt lEnd" 
+                                    type="checkbox" id="FR2" name="track" value="Fishermans Ranch II" checked />
                                 <label class="form-check-label" for="FR2">Fishermans Ranch II</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="FI" name="track" value="Fuji International Speedway" checked />
+                                    <input class="form-check-input gMaster real lL Pre1" type="checkbox" id="FI" name="track" value="Fuji International Speedway" checked />
                                     <label class="form-check-label" for="FI">Fuji International Speedway</label>
-                                    -->Fuji International Speedway
                                 </h5>
 
-                                <input class="form-check-input tracks real lL Pre1" type="checkbox" id="FIS" name="track" value="Fuji International Speedway" checked />
+                                <input class="form-check-input tracks gFI real lL Pre1" 
+                                    type="checkbox" id="FIS" name="track" value="Fuji International Speedway" checked />
                                 <label class="form-check-label" for="FIS">Fuji International Speedway</label>
                                 <br />
 
-                                <input class="form-check-input tracks real lL Pre1" type="checkbox" id="FISS" name="track" value="Fuji International Speedway Short" checked />
+                                <input class="form-check-input tracks gFI real lL Pre1" 
+                                    type="checkbox" id="FISS" name="track" value="Fuji International Speedway Short" checked />
                                 <label class="form-check-label" for="FISS">Fuji International Speedway Short</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="GW" name="track" value="Goodwood" checked />
+                                    <input class="form-check-input gMaster real Pre1" type="checkbox" id="GW" name="track" value="Goodwood" checked />
                                     <label class="form-check-label" for="GW">Goodwood</label>
-                                    -->Goodwood
                                 </h5>
 
-                                <input class="form-check-input tracks real lM Pre1" type="checkbox" id="GMC" name="track" value="Goodwood Motor Circuit" checked />
+                                <input class="form-check-input tracks gGW real lM Pre1" 
+                                    type="checkbox" id="GMC" name="track" value="Goodwood Motor Circuit" checked />
                                 <label class="form-check-label" for="GMC">Goodwood Motor Circuit</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="KDP" name="track" value="KYOTO DRIVING PARK" checked />
+                                    <input class="form-check-input gMaster original Pre1" type="checkbox" id="KDP" name="track" value="KYOTO DRIVING PARK" checked />
                                     <label class="form-check-label" for="KDP">KYOTO DRIVING PARK</label>
-                                    -->KYOTO DRIVING PARK
                                 </h5>
 
-                                <input class="form-check-input tracks original lL Pre1" type="checkbox" id="YAMAGIWA" name="track" value="KYOTO DRIVING PARK - YAMAGIWA" checked />
+                                <input class="form-check-input tracks gKDP original lL Pre1" 
+                                    type="checkbox" id="YAMAGIWA" name="track" value="KYOTO DRIVING PARK - YAMAGIWA" checked />
                                 <label class="form-check-label" for="YAMAGIWA">KYOTO DRIVING PARK - YAMAGIWA</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lL Pre1" type="checkbox" id="YAMAGIWA2" name="track" value="KYOTO DRIVING PARK - YAMAGIWA II" checked />
+                                <input class="form-check-input tracks gKDP original lL Pre1" 
+                                    type="checkbox" id="YAMAGIWA2" name="track" value="KYOTO DRIVING PARK - YAMAGIWA II" checked />
                                 <label class="form-check-label" for="YAMAGIWA2">KYOTO DRIVING PARK - YAMAGIWA II</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lS Pre1" type="checkbox" id="MIYABI" name="track" value="KYOTO DRIVING PARK - MIYABI" checked />
+                                <input class="form-check-input tracks gKDP original lS Pre1" 
+                                    type="checkbox" id="MIYABI" name="track" value="KYOTO DRIVING PARK - MIYABI" checked />
                                 <label class="form-check-label" for="MIYABI">KYOTO DRIVING PARK - MIYABI</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lEnd Pre1" type="checkbox" id="KYBOTH" name="track" value="KYOTO DRIVING PARK - YAMAGIWA+MIYABI" checked />
+                                <input class="form-check-input tracks gKDP original lEnd Pre1" 
+                                    type="checkbox" id="KYBOTH" name="track" value="KYOTO DRIVING PARK - YAMAGIWA+MIYABI" checked />
                                 <label class="form-check-label" for="KYBOTH">KYOTO DRIVING PARK - YAMAGIWA+MIYABI</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lEnd Pre1" type="checkbox" id="KYBOTH2" name="track" value="KYOTO DRIVING PARK - YAMAGIWA+MIYABI II" checked />
+                                <input class="form-check-input tracks gKDP original lEnd Pre1" 
+                                    type="checkbox" id="KYBOTH2" name="track" value="KYOTO DRIVING PARK - YAMAGIWA+MIYABI II" checked />
                                 <label class="form-check-label" for="KYBOTH2">KYOTO DRIVING PARK - YAMAGIWA+MIYABI II</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="MP" name="track" value="Mount Panorama" checked />
+                                    <input class="form-check-input gMaster real Pre1" type="checkbox" id="MP" name="track" value="Mount Panorama" checked />
                                     <label class="form-check-label" for="MP">Mount Panorama</label>
-                                    -->Mount Panorama
                                 </h5>
 
-                                <input class="form-check-input tracks real lL Pre1" type="checkbox" id="MPMRC" name="track" value="Mount Panorama Motor Racing Circuit" checked />
+                                <input class="form-check-input tracks gMP real lL Pre1" 
+                                    type="checkbox" id="MPMRC" name="track" value="Mount Panorama Motor Racing Circuit" checked />
                                 <label class="form-check-label" for="MPMRC">Mount Panorama Motor Racing Circuit</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="NI" name="track" value="Northern Isle Speedway" checked />
+                                    <input class="form-check-input gMaster original oval" type="checkbox" id="NI" name="track" value="Northern Isle Speedway" checked />
                                     <label class="form-check-label" for="NI">Northern Isle Speedway</label>
-                                    -->Northern Isle Speedway
                                 </h5>
 
-                                <input class="form-check-input tracks original oval lS" type="checkbox" id="NIS" name="track" value="Northern Isle Speedway" checked />
+                                <input class="form-check-input tracks gNI original oval lS" 
+                                    type="checkbox" id="NIS" name="track" value="Northern Isle Speedway" checked />
                                 <label class="form-check-label" for="NIS">Northern Isle Speedway</label>
                                 <br />
 
@@ -661,21 +686,22 @@
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="NR" name="track" value="Nürburgring" checked />
+                                    <input class="form-check-input gMaster real Pre1" type="checkbox" id="NR" name="track" value="Nürburgring" checked />
                                     <label class="form-check-label" for="NR">Nürburgring</label>
-                                    -->Nürburgring
                                 </h5>
 
-                                <input class="form-check-input tracks real lL Pre1" type="checkbox" id="NGP" name="track" value="Nürburgring GP" checked />
+                                <input class="form-check-input tracks gNR real lL Pre1" 
+                                    type="checkbox" id="NGP" name="track" value="Nürburgring GP" checked />
                                 <label class="form-check-label" for="NGP">Nürburgring GP</label>
                                 <br />
 
-                                <input class="form-check-input tracks real lEnd Pre1" type="checkbox" id="NNS" name="track" value="Nürburgring Nordschleife" checked />
+                                <input class="form-check-input tracks gNR real lEnd Pre1"
+                                     type="checkbox" id="NNS" name="track" value="Nürburgring Nordschleife" checked />
                                 <label class="form-check-label" for="NNS">Nürburgring Nordschleife</label>
                                 <br />
 
-                                <input class="form-check-input tracks real lEnd Pre1" type="checkbox" id="N24" name="track" value="Nürburgring 24H" checked />
+                                <input class="form-check-input tracks gNR real lEnd Pre1"
+                                     type="checkbox" id="N24" name="track" value="Nürburgring 24H" checked />
                                 <label class="form-check-label" for="N24">Nürburgring 24H</label>
                                 <br />
 
@@ -684,162 +710,171 @@
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="RB" name="track" value="Red Bull Ring" checked />
+                                    <input class="form-check-input gMaster real Pre1" type="checkbox" id="RB" name="track" value="Red Bull Ring" checked />
                                     <label class="form-check-label" for="RB">Red Bull Ring</label>
-                                    -->Red Bull Ring
                                 </h5>
 
-                                <input class="form-check-input tracks real lL Pre1" type="checkbox" id="RBR" name="track" value="Red Bull Ring" checked />
+                                <input class="form-check-input tracks gRB real lL Pre1" 
+                                    type="checkbox" id="RBR" name="track" value="Red Bull Ring" checked />
                                 <label class="form-check-label" for="RBR">Red Bull Ring</label>
                                 <br />
 
-                                <input class="form-check-input tracks real lS Pre1" type="checkbox" id="RBRS" name="track" value="Red Bull Ring Short Track" checked />
+                                <input class="form-check-input tracks gRB real lS Pre1" 
+                                    type="checkbox" id="RBRS" name="track" value="Red Bull Ring Short Track" checked />
                                 <label class="form-check-label" for="RBRS">Red Bull Ring Short Track</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="SD" name="track" value="Sardegna" checked />
+                                    <input class="form-check-input gMaster" type="checkbox" id="SD" name="track" value="Sardegna" checked />
                                     <label class="form-check-label" for="SD">Sardegna</label>
-                                    -->Sardegna
                                 </h5>
 
-                                <input class="form-check-input tracks dirt lM" type="checkbox" id="SW" name="track" value="Sardegna - Windmills" checked />
+                                <input class="form-check-input tracks gSD dirt lM" 
+                                    type="checkbox" id="SW" name="track" value="Sardegna - Windmills" checked />
                                 <label class="form-check-label" for="SW">Sardegna - Windmills</label>
                                 <br />
 
-                                <input class="form-check-input tracks dirt lM" type="checkbox" id="SW2" name="track" value="Sardegna - Windmills II" checked />
+                                <input class="form-check-input tracks gSD dirt lM" 
+                                    type="checkbox" id="SW2" name="track" value="Sardegna - Windmills II" checked />
                                 <label class="form-check-label" for="SW2">Sardegna - Windmills II</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lL Pre1" type="checkbox" id="SRTA" name="track" value="Sardegna - Road Track - A" checked />
+                                <input class="form-check-input tracks gSD original lL Pre1" 
+                                    type="checkbox" id="SRTA" name="track" value="Sardegna - Road Track - A" checked />
                                 <label class="form-check-label" for="SRTA">Sardegna - Road Track - A</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lL Pre1" type="checkbox" id="SRTA2" name="track" value="Sardegna - Road Track - A II" checked />
+                                <input class="form-check-input tracks gSD original lL Pre1" 
+                                    type="checkbox" id="SRTA2" name="track" value="Sardegna - Road Track - A II" checked />
                                 <label class="form-check-label" for="SRTA2">Sardegna - Road Track - A II</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lM Pre1" type="checkbox" id="SRTB" name="track" value="Sardegna - Road Track - B" checked />
+                                <input class="form-check-input tracks gSD original lM Pre1" 
+                                    type="checkbox" id="SRTB" name="track" value="Sardegna - Road Track - B" checked />
                                 <label class="form-check-label" for="SRTB">Sardegna - Road Track - B</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lM Pre1" type="checkbox" id="SRTB2" name="track" value="Sardegna - Road Track - B II" checked />
+                                <input class="form-check-input tracks gSD original lM Pre1" 
+                                    type="checkbox" id="SRTB2" name="track" value="Sardegna - Road Track - B II" checked />
                                 <label class="form-check-label" for="SRTB2">Sardegna - Road Track - B II</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lM Pre1" type="checkbox" id="SRTC" name="track" value="Sardegna - Road Track - C" checked />
+                                <input class="form-check-input tracks gSD original lM Pre1" 
+                                    type="checkbox" id="SRTC" name="track" value="Sardegna - Road Track - C" checked />
                                 <label class="form-check-label" for="SRTC">Sardegna - Road Track - C</label>
                                 <br />
 
-                                <input class="form-check-input tracks original lM Pre1" type="checkbox" id="SRTC2" name="track" value="Sardegna - Road Track - C II" checked />
+                                <input class="form-check-input tracks gSD original lM Pre1" 
+                                    type="checkbox" id="SRTC2" name="track" value="Sardegna - Road Track - C II" checked />
                                 <label class="form-check-label" for="SRTC2">Sardegna - Road Track - C II</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="SS" name="track" value="Special Stage" checked />
+                                    <input class="form-check-input gMaster original lEnd" type="checkbox" id="SS" name="track" value="Special Stage" checked />
                                     <label class="form-check-label" for="SS">Special Stage</label>
-                                    -->Special Stage
                                 </h5>
 
-                                <input class="form-check-input tracks original lEnd" type="checkbox" id="SSRX" name="track" value="Special Stage Route X" checked />
+                                <input class="form-check-input tracks gSS original lEnd" 
+                                    type="checkbox" id="SSRX" name="track" value="Special Stage Route X" checked />
                                 <label class="form-check-label" for="SSRX">Special Stage Route X</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="SZ" name="track" value="Suzuka" checked />
+                                    <input class="form-check-input gMaster real Pre1" type="checkbox" id="SZ" name="track" value="Suzuka" checked />
                                     <label class="form-check-label" for="SZ">Suzuka</label>
-                                    -->Suzuka
                                 </h5>
 
-                                <input class="form-check-input tracks real lL Pre1" type="checkbox" id="SC" name="track" value="Suzuka Circuit" checked />
+                                <input class="form-check-input tracks gSZ real lL Pre1" 
+                                    type="checkbox" id="SC" name="track" value="Suzuka Circuit" checked />
                                 <label class="form-check-label" for="SC">Suzuka Circuit</label>
                                 <br />
 
-                                <input class="form-check-input tracks real lS Pre1" type="checkbox" id="SCEC" name="track" value="Suzuka Circuit East Course" checked />
+                                <input class="form-check-input tracks gSZ real lS Pre1" 
+                                    type="checkbox" id="SCEC" name="track" value="Suzuka Circuit East Course" checked />
                                 <label class="form-check-label" for="SCEC">Suzuka Circuit East Course</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="TE" name="track" value="Tokyo Expressway" checked />
+                                    <input class="form-check-input gMaster city Pre1" type="checkbox" id="TE" name="track" value="Tokyo Expressway" checked />
                                     <label class="form-check-label" for="TE">Tokyo Expressway</label>
-                                    -->Tokyo Expressway
                                 </h5>
 
                                 <input class="form-check-input tracks city lL Pre1" type="checkbox" id="TECOL" name="track" value="Tokyo Expressway - Central Outer Loop" checked />
                                 <label class="form-check-label" for="TECOL">Tokyo Expressway - Central Outer Loop</label>
                                 <br />
 
-                                <input class="form-check-input tracks city lL Pre1" type="checkbox" id="TECIL" name="track" value="Tokyo Expressway - Central Inner Loop" checked />
+                                <input class="form-check-input tracks gTE city lL Pre1" 
+                                    type="checkbox" id="TECIL" name="track" value="Tokyo Expressway - Central Inner Loop" checked />
                                 <label class="form-check-label" for="TECIL">Tokyo Expressway - Central Inner Loop</label>
                                 <br />
 
-                                <input class="form-check-input tracks city lEnd Pre1" type="checkbox" id="TEEOL" name="track" value="Tokyo Expressway - East Outer Loop" checked />
+                                <input class="form-check-input tracks gTE city lEnd Pre1" 
+                                    type="checkbox" id="TEEOL" name="track" value="Tokyo Expressway - East Outer Loop" checked />
                                 <label class="form-check-label" for="TEEOL">Tokyo Expressway - East Outer Loop</label>
                                 <br />
 
-                                <input class="form-check-input tracks city lEnd Pre1" type="checkbox" id="TEEIL" name="track" value="Tokyo Expressway - East Inner Loop" checked />
+                                <input class="form-check-input tracks gTE city lEnd Pre1" 
+                                    type="checkbox" id="TEEIL" name="track" value="Tokyo Expressway - East Inner Loop" checked />
                                 <label class="form-check-label" for="TEEIL">Tokyo Expressway - East Inner Loop</label>
                                 <br />
 
-                                <input class="form-check-input tracks city lL Pre1" type="checkbox" id="TESOL" name="track" value="Tokyo Expressway - South Outer Loop" checked />
+                                <input class="form-check-input tracks gTE city lL Pre1" 
+                                    type="checkbox" id="TESOL" name="track" value="Tokyo Expressway - South Outer Loop" checked />
                                 <label class="form-check-label" for="TESOL">Tokyo Expressway - South Outer Loop</label>
                                 <br />
 
-                                <input class="form-check-input tracks city lL Pre1" type="checkbox" id="TESIL" name="track" value="Tokyo Expressway - South Inner Loop" checked />
+                                <input class="form-check-input tracks gTE city lL Pre1" 
+                                    type="checkbox" id="TESIL" name="track" value="Tokyo Expressway - South Inner Loop" checked />
                                 <label class="form-check-label" for="TESIL">Tokyo Expressway - South Inner Loop</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="TC" name="track" value="Tsukuba Circuit" checked />
+                                    <input class="form-check-input gMaster real Pre1" type="checkbox" id="TC" name="track" value="Tsukuba Circuit" checked />
                                     <label class="form-check-label" for="TC">Tsukuba Circuit</label>
-                                    -->Tsukuba Circuit
                                 </h5>
 
-                                <input class="form-check-input tracks real lS Pre1" type="checkbox" id="TC0" name="track" value="Tsukuba Circuit" checked />
+                                <input class="form-check-input tracks gTC real lS Pre1" 
+                                    type="checkbox" id="TC0" name="track" value="Tsukuba Circuit" checked />
                                 <label class="form-check-label" for="TC0">Tsukuba Circuit</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="LC" name="track" value="WeatherTech Raceway Laguna Seca" checked />
+                                    <input class="form-check-input gMaster real Pre1" type="checkbox" id="LC" name="track" value="WeatherTech Raceway Laguna Seca" checked />
                                     <label class="form-check-label" for="LC">WeatherTech Raceway Laguna Seca</label>
-                                    -->WeatherTech Raceway Laguna Seca
                                 </h5>
 
-                                <input class="form-check-input tracks real lM Pre1" type="checkbox" id="WRLC" name="track" value="WeatherTech Raceway Laguna Seca" checked />
+                                <input class="form-check-input tracks gLC real lM Pre1" 
+                                    type="checkbox" id="WRLC" name="track" value="WeatherTech Raceway Laguna Seca" checked />
                                 <label class="form-check-label" for="WRLC">WeatherTech Raceway Laguna Seca</label>
 
                             </div><div class="form-group col">
                                 <h5 class="fw-lighter">
-                                    <!--    Preparing for Potential Master Toggle for Track Group
-                                    <input class="form-check-input" type="checkbox" id="WSIR" name="track" value="Willow Springs International Raceway" checked />
+                                    <input class="form-check-input gMaster real" type="checkbox" id="WSIR" name="track" value="Willow Springs International Raceway" checked />
                                     <label class="form-check-label" for="WSIR">Willow Springs International Raceway</label>
-                                    -->Willow Springs International Raceway
                                 </h5>
 
-                                <input class="form-check-input tracks real lM" type="checkbox" id="WSBW" name="track" value="Willow Springs International Raceway: Big Willow" checked />
+                                <input class="form-check-input tracks gWSIR real lM" 
+                                    type="checkbox" id="WSBW" name="track" value="Willow Springs International Raceway: Big Willow" checked />
                                 <label class="form-check-label" for="WSBW">Willow Springs International Raceway: Big Willow</label>
                                 <br />
 
-                                <input class="form-check-input tracks real lM" type="checkbox" id="WSS" name="track" value="Willow Springs International Raceway: Streets of Willow Springs" checked />
+                                <input class="form-check-input tracks gWSIR real lM" 
+                                    type="checkbox" id="WSS" name="track" value="Willow Springs International Raceway: Streets of Willow Springs" checked />
                                 <label class="form-check-label" for="WSS">Willow Springs International Raceway: Streets of Willow Springs</label>
                                 <br />
 
-                                <input class="form-check-input tracks real lM" type="checkbox" id="WSS2" name="track" value="Willow Springs International Raceway: Streets of Willow Springs II" checked />
+                                <input class="form-check-input tracks gWSIR real lM" 
+                                    type="checkbox" id="WSS2" name="track" value="Willow Springs International Raceway: Streets of Willow Springs II" checked />
                                 <label class="form-check-label" for="WSS2">Willow Springs International Raceway: Streets of Willow Springs II</label>
                                 <br />
 
-                                <input class="form-check-input tracks real lS" type="checkbox" id="WSHTM" name="track" value="Willow Springs International Raceway: Horse Thief Mile" checked />
+                                <input class="form-check-input tracks gWSIR real lS" 
+                                    type="checkbox" id="WSHTM" name="track" value="Willow Springs International Raceway: Horse Thief Mile" checked />
                                 <label class="form-check-label" for="WSHTM">Willow Springs International Raceway: Horse Thief Mile</label>
                                 <br />
 
-                                <input class="form-check-input tracks real lS" type="checkbox" id="WSHTM2" name="track" value="Willow Springs International Raceway: Horse Thief Mile II" checked />
+                                <input class="form-check-input tracks gWSIR real lS" 
+                                    type="checkbox" id="WSHTM2" name="track" value="Willow Springs International Raceway: Horse Thief Mile II" checked />
                                 <label class="form-check-label" for="WSHTM2">Willow Springs International Raceway: Horse Thief Mile II</label>
 
                             </div></div><!-- End of Row -->
